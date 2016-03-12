@@ -2,9 +2,9 @@ Adapted from https://github.com/Azure/azure-quickstart-templates/tree/master/go-
 
 1. geth account import priv_genesis.key
 
-2. ./start-private-blockchain.sh
+2. ./create-inline-guestbook.sh, copy contents of inline-guestbook.sol
 
-3. ./create-inline-guestbook.sh
+3. ./start-private-blockchain.sh
 
 4. var guestBookSource = '(inline-guestbook.sol)'
 
