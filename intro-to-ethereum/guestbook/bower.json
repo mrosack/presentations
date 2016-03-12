@@ -1,0 +1,22 @@
+{
+  "name": "guestbook",
+  "homepage": "https://github.com/mrosack/presentations",
+  "description": "Stupid simple and ill advised ethereum guestbook app",
+  "main": "",
+  "moduleType": [],
+  "authors": [
+    "Mike Rosack"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^2.2.1"
+  }
+}
