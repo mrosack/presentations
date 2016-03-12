@@ -1,0 +1,49 @@
+Adapted from https://github.com/Azure/azure-quickstart-templates/tree/master/go-ethereum-on-ubuntu
+
+1. geth account import priv_genesis.key
+
+2. ./start-private-blockchain.sh
+
+3. ./create-inline-guestbook.sh
+
+4. var guestBookSource = '(inline-guestbook.sol)'
+
+5. var guestBookCompiled = web3.eth.compile.solidity(guestBookSource);
+
+6. var contract = web3.eth.contract(guestBookCompiled.GuestBook.info.abiDefinition);
+
+7. var callback = function(e, contract){
+    if(!e) {
+      if(!contract.address) {
+        console.log("Contract transaction send: TransactionHash: " + contract.transactionHash + " waiting to be mined...");
+      } else {
+        console.log("Contract mined!");
+        console.log(contract);
+      }
+    }
+}
+
+8. var initializer =  {from:web3.eth.accounts[0], data: guestBookCompiled.GuestBook.code, gas: 300000}
+
+9. (may not be necessary depending on the version of geth)
+   personal.unlockAccount(eth.accounts[0], "password", 1000);
+
+10. var guestBook = contract.new(initializer, callback);
+
+11. web3.miner.start(1)
+
+12. web3.miner.stop(1)
+
+13. guestBook.getNumEntries()  // returns 0
+
+14. guestBook.addEntry("Hello from geth!", {from: eth.accounts[0]})
+
+15. guestBook.getNumEntries() // still returns 0
+
+16. web3.miner.start(1)
+
+17. web3.miner.stop(1)
+
+18. guestBook.getNumEntries() // returns 1!
+
+19. guestBook.getEntry(0)

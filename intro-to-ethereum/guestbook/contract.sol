@@ -2,7 +2,7 @@ contract GuestBook {
 	struct Entry {
 		address sender;
 		// Currently there's no way to return a variable
-		// sized string back :()
+		// sized string back :(
 		bytes32 message;
 	}
 	
