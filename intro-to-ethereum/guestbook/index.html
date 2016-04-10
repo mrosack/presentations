@@ -15,18 +15,8 @@ $(function() {
 
 		for(var i = 0; i < numEntries; i++) {
 			var entry = contract.getEntry(i);
-			$("#entries").append("<li>From " + entry[0] + ": " + hex2a(entry[1]) + "</li>");
+			$("#entries").append("<li>From " + entry[0] + ": " + entry[1] + "</li>");
 		}
-	}
-	
-	function hex2a(hexx) {
-		// http://stackoverflow.com/questions/3745666/how-to-convert-from-hex-to-ascii-in-javascript
-    	var hex = hexx.toString();//force conversion
-    	var str = '';
-    	for (var i = 0; i < hex.length; i += 2) {
-        	str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
-		}
-    	return str;
 	}
 	
 	$('#save').on('click', function() {

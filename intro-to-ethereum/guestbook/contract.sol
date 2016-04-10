@@ -1,16 +1,14 @@
 contract GuestBook {
 	struct Entry {
 		address sender;
-		// Currently there's no way to return a variable
-		// sized string back :(
-		bytes32 message;
+		string message;
 	}
 	
 	// There's currently no way to iterate mappings :(
 	uint8 numEntries;
 	mapping (uint8 => Entry) entries;
 
-	function addEntry(bytes32 guestBookEntry) {
+	function addEntry(string guestBookEntry) {
 		entries[numEntries] = Entry(msg.sender, guestBookEntry);
 		numEntries++;
 	}
@@ -19,7 +17,7 @@ contract GuestBook {
 		return numEntries;
 	}
 
-	function getEntry(uint8 entryNumber) constant returns (address sender, bytes32 message) {
+	function getEntry(uint8 entryNumber) constant returns (address sender, string message) {
 		return (entries[entryNumber].sender, entries[entryNumber].message);
 	}
 }
