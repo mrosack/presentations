@@ -1,0 +1,3 @@
+environments/**/build
+environments/**/contracts
+app/bower_components
