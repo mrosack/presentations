@@ -3,13 +3,11 @@
   var contract;
 
 	function update() {
-    return contract.getNumEntries().then(function (rawNumEntries) {
-      var numEntries = parseInt(rawNumEntries);
-
-  		document.getElementById("noEntries").style.display = numEntries ? 'none' : 'block';
+    return contract.getNumEntries().then(function (numEntries) {
+  		document.getElementById("noEntries").style.display = numEntries.toNumber() ? 'none' : 'block';
   		document.getElementById("entries").innerHTML = "";
 
-      return Promise.each(_.range(numEntries), function (i) {
+      return Promise.each(_.range(numEntries.toNumber()), function (i) {
         return contract.getEntry(i).then(function (entry) {
           var li = document.createElement("li");
           li.innerText = "From " + entry[0] + ": " + entry[1];
