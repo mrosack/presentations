@@ -14,9 +14,14 @@ angular.module('guestbookApp', [])
     ////////
 
     function update() {
-      vm.balance = web3.eth.getBalance(account).toNumber();
-
-      return $q.when(contract.getNumEntries.call().then(function (numEntries) {
+      return $q(function (resolve, reject) {
+      	web3.eth.getBalance(account, function (err, balance) {
+      	  vm.balance = balance.toNumber();
+          resolve();
+        });
+      }).then(function () {
+        return contract.getNumEntries.call();
+      }).then(function (numEntries) {
         var tempEntries = [];
 
         return Promise.each(_.rangeRight(numEntries.toNumber()), function (i) {
@@ -40,7 +45,7 @@ angular.module('guestbookApp', [])
         }).then(function () {
           vm.entries = tempEntries;
         });
-      }));
+      });
     }
 
     function init() {
