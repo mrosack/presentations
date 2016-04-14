@@ -1,3 +1,3 @@
 #!/bin/bash
 
-geth --maxpeers 0 --genesis genesis.json --networkid 101010101  --rpc --rpccorsdomain "*" console
+geth --datadir="~/demochain" --maxpeers 0 --genesis genesis.json --networkid 101010101  --rpc --rpccorsdomain "*" --unlock 7fbe93bc104ac4bcae5d643fd3747e1866f1ece4 console
