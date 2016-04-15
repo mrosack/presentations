@@ -23,5 +23,9 @@
         <span style="font-weight:bold;color:grey;font-size:0.75em;border-top:1px solid black;display:block;">From {{entry.sender}} at {{entry.timestamp.toString()}} in block {{entry.blockNumber}}</span>
       </div>
     </div>
+    <div ng-if="vm.isOwner" style="margin-top:3em;">
+      <hr />
+      <button ng-click="vm.remove()">Remove contract from blockchain!</button>
+    </div>
   </body>
 </html>

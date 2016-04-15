@@ -1,3 +1,5 @@
+Pudding.defaults({gasLimit: 3141592});
+
 angular.module('guestbookApp', [])
   .controller('GuestBookController', function($q) {
     var account;
@@ -8,6 +10,7 @@ angular.module('guestbookApp', [])
     vm.message = '';
     vm.save = save;
     vm.flag = flag;
+    vm.remove = remove;
 
     init();
 
@@ -103,5 +106,12 @@ angular.module('guestbookApp', [])
           });
         });
       });
+    }
+
+    function remove() {
+      if (confirm('Are you sure you want to remove the contract from the blockchain?')) {
+        return contract.remove({from: account})
+          .then(update);
+      }
     }
   });
