@@ -1,4 +1,4 @@
-Pudding.defaults({gasLimit: 3141592});
+Pudding.defaults({gas: 0x2fefd8});
 
 angular.module('guestbookApp', [])
   .controller('GuestBookController', function($q) {
