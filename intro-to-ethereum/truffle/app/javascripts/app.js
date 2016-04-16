@@ -1,9 +1,10 @@
 Pudding.defaults({gas: 0x2fefd8});
 
 angular.module('guestbookApp', [])
-  .controller('GuestBookController', function($q) {
+  .controller('GuestBookController', function($q, $timeout) {
     var account;
     var contract = GuestBook.deployed();
+    var updating = false;
 
     var vm = this;
     vm.balance = 0;
@@ -16,7 +17,18 @@ angular.module('guestbookApp', [])
 
     ////////
 
+    function watchForUpdates() {
+      if (!updating) {
+        update();
+      }
+
+      $timeout(function () {
+        watchForUpdates();
+      }, 5000);
+    }
+
     function update() {
+      updating = true;
       return $q(function (resolve, reject) {
       	web3.eth.getBalance(account, function (err, balance) {
       	  vm.balance = balance.toNumber();
@@ -48,6 +60,8 @@ angular.module('guestbookApp', [])
         }).then(function () {
           vm.entries = tempEntries;
         });
+      }).then(function () {
+        updating = false;
       });
     }
 
@@ -72,7 +86,7 @@ angular.module('guestbookApp', [])
         return contract.getOwner.call().then(function (owner) {
           vm.isOwner = owner === account;
         });
-      }).then(update);
+      }).then(watchForUpdates);
     }
 
     function save() {
