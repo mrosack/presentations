@@ -7,4 +7,20 @@
   </div>
 </div>
 <hr />
-<textarea style="width:100%;height:400px;color:black;font-family: Courier New, Courier, monospace;">{{responseJson | json}}</textarea>
+<textarea>{{responseJson | json}}</textarea>
+
+<div bsModal #errorModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Error</h4>
+        <button type="button" class="close pull-right" (click)="errorModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        There was an error getting data from the server.
+      </div>
+    </div>
+  </div>
+</div>

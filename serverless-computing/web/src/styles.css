@@ -161,3 +161,8 @@ body {
     width: 700px;
   }
 }
+
+.modal-dialog {
+    color: #000;
+    text-shadow: none;
+}

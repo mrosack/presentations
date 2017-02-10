@@ -1,2 +1,8 @@
 node_modules
 .serverless
+*.suo
+*.user
+.vs
+bin/
+obj/
+*.lock.json

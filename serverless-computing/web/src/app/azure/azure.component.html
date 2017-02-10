@@ -1,3 +1,26 @@
-<p>
-  azure works!
-</p>
+<div class="row">
+  <div class="col-md-4">
+    <button type="button" class="btn btn-primary btn-lg btn-block" [disabled]="loading" (click)="loadLocal()">Load Local</button>
+  </div>
+  <div class="col-md-4 col-md-offset-4">
+    <button type="button" class="btn btn-primary btn-lg btn-block" [disabled]="loading" (click)="loadAws()">Load from Azure</button>
+  </div>
+</div>
+<hr />
+<textarea>{{responseJson | json}}</textarea>
+
+<div bsModal #errorModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title pull-left">Error</h4>
+        <button type="button" class="close pull-right" (click)="errorModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        There was an error getting data from the server.
+      </div>
+    </div>
+  </div>
+</div>

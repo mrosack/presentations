@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Http } from '@angular/http';
+import { ModalDirective } from 'ng2-bootstrap';
 
 @Component({
   selector: 'app-aws',
@@ -9,6 +10,7 @@ import { Http } from '@angular/http';
 export class AwsComponent implements OnInit {
   private responseJson: any;
   private loading = false;
+  @ViewChild('errorModal') private errorModal: ModalDirective;
 
   constructor(private http: Http) { }
 
@@ -30,6 +32,9 @@ export class AwsComponent implements OnInit {
     this.http.get(url).forEach(resp => {
       this.loading = false;
       this.responseJson = resp.json();
+    }).catch(err => {
+      this.errorModal.show();
+      this.loading = false;
     });
   }
 }
