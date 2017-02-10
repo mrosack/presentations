@@ -1,3 +1,10 @@
-<p>
-  aws works!
-</p>
+<div class="row">
+  <div class="col-md-4">
+    <button type="button" class="btn btn-primary btn-lg btn-block" [disabled]="loading" (click)="loadLocal()">Load Local</button>
+  </div>
+  <div class="col-md-4 col-md-offset-4">
+    <button type="button" class="btn btn-primary btn-lg btn-block" [disabled]="loading" (click)="loadAws()">Load from AWS</button>
+  </div>
+</div>
+<hr />
+<textarea style="width:100%;height:400px;color:black;font-family: Courier New, Courier, monospace;">{{responseJson | json}}</textarea>
