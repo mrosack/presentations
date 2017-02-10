@@ -1,3 +1,42 @@
-<h1>
-  {{title}}
-</h1>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+    <title>Serverless Demo</title>
+  </head>
+
+  <body>
+
+    <div class="site-wrapper">
+
+      <div class="site-wrapper-inner">
+
+        <div class="cover-container">
+
+          <div class="masthead clearfix">
+            <div class="inner">
+              <h3 class="masthead-brand">Serverless Demo</h3>
+              <nav>
+                <ul class="nav masthead-nav">
+                  <li [routerLinkActive]="['active']"><a [routerLink]="['/aws']">AWS Lambda / Serverless</a></li>
+                  <li [routerLinkActive]="['active']"><a [routerLink]="['/azure']">Azure Functions</a></li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+
+          <div class="inner cover">
+            <router-outlet></router-outlet>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </body>
+</html>
