@@ -26,3 +26,6 @@ Serverless
 
 Azure Functions
 ---------------
+
+- create new project
+- cors: response.Headers.Add("Access-Control-Allow-Origin", "*");
