@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col-md-4">
-    <button type="button" class="btn btn-primary btn-lg btn-block" [disabled]="loading" (click)="loadLocal()">Load Local</button>
+    <button type="button" class="btn btn-primary btn-lg btn-block" [disabled]="!LOCAL_URL || loading" (click)="loadLocal()">Load Local</button>
   </div>
   <div class="col-md-4 col-md-offset-4">
-    <button type="button" class="btn btn-primary btn-lg btn-block" [disabled]="loading" (click)="loadAws()">Load from Azure</button>
+    <button type="button" class="btn btn-primary btn-lg btn-block" [disabled]="!AZURE_URL || loading" (click)="loadAzure()">Load from Azure</button>
   </div>
 </div>
 <hr />

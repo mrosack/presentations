@@ -10,6 +10,8 @@ import { ModalDirective } from 'ng2-bootstrap';
 export class AwsComponent implements OnInit {
   private responseJson: any;
   private loading = false;
+  private AWS_URL: string = null;
+  private LOCAL_URL: string = null;
   @ViewChild('errorModal') private errorModal: ModalDirective;
 
   constructor(private http: Http) { }
@@ -18,11 +20,11 @@ export class AwsComponent implements OnInit {
   }
 
   loadAws() {
-    this.load('https://7bsesjw2af.execute-api.us-east-1.amazonaws.com/dev/hello');
+    this.load(this.AWS_URL);
   }
 
   loadLocal() {
-    this.load('http://localhost:3000/hello');
+    this.load(this.LOCAL_URL);
   }
 
   load(url: string) {

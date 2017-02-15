@@ -8,8 +8,10 @@ import { ModalDirective } from 'ng2-bootstrap';
   styleUrls: ['./azure.component.css']
 })
 export class AzureComponent implements OnInit {
-private responseJson: any;
+  private responseJson: any;
   private loading = false;
+  private AZURE_URL: string = null;
+  private LOCAL_URL: string = null;
   @ViewChild('errorModal') private errorModal: ModalDirective;
 
   constructor(private http: Http) { }
@@ -17,12 +19,12 @@ private responseJson: any;
   ngOnInit() {
   }
 
-  loadAws() {
-    this.load('http://mikefunctiontest.azurewebsites.net/api/HelloWorld');
+  loadAzure() {
+    this.load(this.AZURE_URL);
   }
 
   loadLocal() {
-    this.load('http://localhost:7071/api/HelloWorld');
+    this.load(this.LOCAL_URL);
   }
 
   load(url: string) {
