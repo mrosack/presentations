@@ -1,0 +1,28 @@
+AWS Console
+-----------
+
+callback(null, {
+    statusCode: '200',
+    body: 'Hello Omni!'
+});
+
+
+Serverless
+----------
+
+- sls create -t aws-nodejs
+- set region to us-east-2
+- add http event
+- sls deploy -v
+- demo in web, CORS will fail
+  - cors: true in serverless.yml
+  - headers: {
+        "Access-Control-Allow-Origin" : "*", // Required for CORS support to work
+    }
+- npm install --save-dev serverless-offline
+- add serverless-offline to plugins
+- debugging (copy debug-sls.sh from serverless project)
+
+
+Azure Functions
+---------------
