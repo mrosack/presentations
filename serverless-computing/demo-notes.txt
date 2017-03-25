@@ -3,7 +3,7 @@ AWS Console
 
 callback(null, {
     statusCode: '200',
-    body: 'Hello Omni!'
+    body: 'Hello New Code Camp!'
 });
 
 
@@ -22,6 +22,11 @@ Serverless
 - npm install --save-dev serverless-offline
 - add serverless-offline to plugins
 - debugging (copy debug-sls.sh from serverless project)
+
+
+TSOA
+----
+http://petstore.swagger.io?url=http://localhost:3000/v1/swagger.json
 
 
 Azure Functions
