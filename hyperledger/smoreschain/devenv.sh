@@ -49,6 +49,8 @@ function create-fabric-and-deploy() {
   composer participant add -c admin@smoreschain -d '{"$class":"com.rss.smoreschain.Camper","camperId":"CAMPER_2","name": "Calvin", "smoresInHand": [], "smoresInBelly": []}'
   composer identity issue -c admin@smoreschain -u calvin -a 'resource:com.rss.smoreschain.Camper#CAMPER_2' --file dist/calvin.card
   composer card import -f dist/calvin.card
+
+  node seed/seed.js
 }
 
 case $arg1 in

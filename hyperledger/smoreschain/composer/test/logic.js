@@ -8,6 +8,7 @@ const BusinessNetworkConnection = require('composer-client').BusinessNetworkConn
 const BusinessNetworkDefinition = require('composer-common').BusinessNetworkDefinition;
 const IdCard = require('composer-common').IdCard;
 const MemoryCardStore = require('composer-common').MemoryCardStore;
+const commonSeed = require('../seed/common');
 
 const path = require('path');
 const chai = require('chai');
@@ -80,35 +81,9 @@ describe('#' + namespace, () => {
 
         // Connect to the business network using the network admin identity
         await businessNetworkConnection.connect(adminCardName);
-
         const factory = businessNetworkConnection.getBusinessNetwork().getFactory();
-        const ingredientRegistry = await businessNetworkConnection.getAssetRegistry(`${namespace}.SmoreIngredient`);
 
-        // Create test ingredients
-        const ingredientBrands = {
-            'GRAHAM_CRACKER': ['Honey Maid', 'Nabisco', 'Annie\'s', 'Generic'],
-            'MARSHMALLOW': ['Stay Puft', 'Jet Puffed', 'Peeps', 'Generic'],
-            'CHOCOLATE': ['Hershey\'s', 'Ghiradelli', 'Generic']
-        };
-
-        const ingredientPromises = [];
-
-        for (const ingredientType in ingredientBrands) {
-            let idCount = 1;
-            for (const brand of ingredientBrands[ingredientType]) {
-                const numToCreate = ingredientType === 'GRAHAM_CRACKER' ? 2 : 1;
-
-                for (let i = 0; i < numToCreate; i++) {
-                    const ingredient = factory.newResource(namespace, 'SmoreIngredient', `${ingredientType}_${idCount++}`);
-                    ingredient.type = ingredientType;
-                    ingredient.brand = brand;
-
-                    ingredientPromises.push(ingredientRegistry.add(ingredient));
-                }
-            }
-        }
-
-        await Promise.all(ingredientPromises);
+        await commonSeed.seedAssets(businessNetworkConnection);
 
         // Create test campers
         const camperRegistry = await businessNetworkConnection.getParticipantRegistry(`${namespace}.Camper`);
