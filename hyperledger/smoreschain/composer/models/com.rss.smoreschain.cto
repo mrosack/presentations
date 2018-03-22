@@ -1,0 +1,44 @@
+/**
+ * Write your model definitions here
+ */
+
+namespace com.rss.smoreschain
+
+participant Camper identified by camperId {
+  o String camperId
+  o String name
+  --> Smore[] smoresInHand
+  --> Smore[] smoresInBelly
+}
+
+enum ingredientType {
+  o GRAHAM_CRACKER
+  o MARSHMALLOW
+  o CHOCOLATE
+}
+
+asset SmoreIngredient identified by ingredientId {
+  o String ingredientId
+  o ingredientType type
+  o String brand
+  --> Smore smore optional
+}
+
+asset Smore identified by smoreId {
+  o String smoreId
+  --> SmoreIngredient[] ingredients
+}
+
+transaction MakeSmore {
+  o String smoreId
+  --> SmoreIngredient[] ingredients
+}
+
+transaction EatSmore {
+  o String smoreId
+}
+
+transaction GiveSmore {
+  o String smoreId
+  o String recipientCamperId
+}

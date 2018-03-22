@@ -1,0 +1,23 @@
+{
+  "name": "smoreschain",
+  "version": "0.0.1",
+  "description": "Tracking the creation and consumption of smores around the campfire!",
+  "scripts": {
+    "test": "mocha --recursive",
+    "lint": "eslint ."
+  },
+  "author": "Mike Rosack",
+  "email": "mrosack@gmail.com",
+  "license": "MIT",
+  "devDependencies": {
+    "composer-admin": "latest",
+    "composer-client": "latest",
+    "composer-common": "latest",
+    "composer-connector-embedded": "latest",
+    "chai": "latest",
+    "eslint": "latest",
+    "istanbul": "latest",
+    "mkdirp": "latest",
+    "mocha": "latest"
+  }
+}
