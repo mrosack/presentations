@@ -71,7 +71,7 @@ rule CampersCanUpdateThemselvesThroughEatSmore {
     participant(p): "com.rss.smoreschain.Camper"
     operation: UPDATE
     resource(r): "com.rss.smoreschain.Camper"
-    transaction(tx): "com.rss.smoreschain.MakeSmore"
+    transaction(tx): "com.rss.smoreschain.EatSmore"
     condition: (p.camperId == r.camperId)
     action: ALLOW
 }
@@ -94,7 +94,7 @@ rule CampersCanUpdateCampersThroughEatSmore {
     participant: "com.rss.smoreschain.Camper"
     operation: UPDATE
     resource: "com.rss.smoreschain.Camper"
-    transaction: "com.rss.smoreschain.MakeSmore"
+    transaction: "com.rss.smoreschain.GiveSmore"
     action: ALLOW
 }
 

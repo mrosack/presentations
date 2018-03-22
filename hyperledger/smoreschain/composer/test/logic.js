@@ -10,8 +10,9 @@ const IdCard = require('composer-common').IdCard;
 const MemoryCardStore = require('composer-common').MemoryCardStore;
 
 const path = require('path');
-
-require('chai').should();
+const chai = require('chai');
+chai.should();
+chai.use(require('chai-as-promised'));
 
 const namespace = 'com.rss.smoreschain';
 
@@ -111,7 +112,7 @@ describe('#' + namespace, () => {
 
         // Create test campers
         const camperRegistry = await businessNetworkConnection.getParticipantRegistry(`${namespace}.Camper`);
-        const campers = ['Mike', 'Alice', 'Bob'];
+        const campers = ['Alice', 'Bob'];
         let idCount = 1;
 
         for (const camperName of campers) {
@@ -133,6 +134,20 @@ describe('#' + namespace, () => {
             const card = new IdCard(metadata, connectionProfile);
             await adminConnection.importCard(camper.camperId, card);
         }
+
+        const makeSmoreTx = factory.newTransaction(namespace, 'MakeSmore');
+        makeSmoreTx.smoreId = 'SMORE_1';
+        makeSmoreTx.ingredients = [
+            factory.newRelationship(namespace, 'SmoreIngredient', 'GRAHAM_CRACKER_1'),
+            factory.newRelationship(namespace, 'SmoreIngredient', 'GRAHAM_CRACKER_2'),
+            factory.newRelationship(namespace, 'SmoreIngredient', 'MARSHMALLOW_1'),
+            factory.newRelationship(namespace, 'SmoreIngredient', 'CHOCOLATE_1')
+        ];
+
+        await businessNetworkConnection.disconnect();
+        await businessNetworkConnection.connect('CAMPER_1');
+
+        await businessNetworkConnection.submitTransaction(makeSmoreTx);
     });
 
     describe('MakeSmore', () => {
@@ -140,12 +155,12 @@ describe('#' + namespace, () => {
             const factory = businessNetworkConnection.getBusinessNetwork().getFactory();
 
             const makeSmoreTx = factory.newTransaction(namespace, 'MakeSmore');
-            makeSmoreTx.smoreId = 'SMORE_1';
+            makeSmoreTx.smoreId = 'SMORE_2';
             makeSmoreTx.ingredients = [
-                factory.newRelationship(namespace, 'SmoreIngredient', 'GRAHAM_CRACKER_1'),
-                factory.newRelationship(namespace, 'SmoreIngredient', 'GRAHAM_CRACKER_2'),
-                factory.newRelationship(namespace, 'SmoreIngredient', 'MARSHMALLOW_1'),
-                factory.newRelationship(namespace, 'SmoreIngredient', 'CHOCOLATE_1')
+                factory.newRelationship(namespace, 'SmoreIngredient', 'GRAHAM_CRACKER_3'),
+                factory.newRelationship(namespace, 'SmoreIngredient', 'GRAHAM_CRACKER_4'),
+                factory.newRelationship(namespace, 'SmoreIngredient', 'MARSHMALLOW_2'),
+                factory.newRelationship(namespace, 'SmoreIngredient', 'CHOCOLATE_2')
             ];
 
             await businessNetworkConnection.disconnect();
@@ -158,6 +173,135 @@ describe('#' + namespace, () => {
 
             smore.smoreId.should.equal('SMORE_1');
         });
+
+        it('should reject a smore made with invalid ingredients', async () => {
+            const factory = businessNetworkConnection.getBusinessNetwork().getFactory();
+
+            const makeSmoreTx = factory.newTransaction(namespace, 'MakeSmore');
+            makeSmoreTx.smoreId = 'SMORE_2';
+            makeSmoreTx.ingredients = [
+                factory.newRelationship(namespace, 'SmoreIngredient', 'GRAHAM_CRACKER_3'),
+                factory.newRelationship(namespace, 'SmoreIngredient', 'MARSHMALLOW_2'),
+                factory.newRelationship(namespace, 'SmoreIngredient', 'CHOCOLATE_2')
+            ];
+
+            await businessNetworkConnection.disconnect();
+            await businessNetworkConnection.connect('CAMPER_1');
+
+            await businessNetworkConnection.submitTransaction(makeSmoreTx).should.be.rejectedWith('Not enough GRAHAM_CRACKERs provided!');
+        });
+
+        it('should reject a smore made with ingredients that are already in a smore', async () => {
+            const factory = businessNetworkConnection.getBusinessNetwork().getFactory();
+
+            const makeSmoreTx = factory.newTransaction(namespace, 'MakeSmore');
+            makeSmoreTx.smoreId = 'SMORE_2';
+            makeSmoreTx.ingredients = [
+                factory.newRelationship(namespace, 'SmoreIngredient', 'GRAHAM_CRACKER_1'),
+                factory.newRelationship(namespace, 'SmoreIngredient', 'GRAHAM_CRACKER_2'),
+                factory.newRelationship(namespace, 'SmoreIngredient', 'MARSHMALLOW_1'),
+                factory.newRelationship(namespace, 'SmoreIngredient', 'CHOCOLATE_1')
+            ];
+
+            await businessNetworkConnection.disconnect();
+            await businessNetworkConnection.connect('CAMPER_1');
+
+            await businessNetworkConnection.submitTransaction(makeSmoreTx).should.be.rejectedWith('Ingredient GRAHAM_CRACKER_1 already belongs to a S\'More!');
+        });
     });
 
+    describe('EatSmore', () => {
+        it('should be able to eat a smore in hand', async () => {
+            const factory = businessNetworkConnection.getBusinessNetwork().getFactory();
+
+            const eatSmoreTx = factory.newTransaction(namespace, 'EatSmore');
+            eatSmoreTx.smoreId = 'SMORE_1';
+
+            await businessNetworkConnection.disconnect();
+            await businessNetworkConnection.connect('CAMPER_1');
+
+            await businessNetworkConnection.submitTransaction(eatSmoreTx);
+
+            const camperRegistry = await businessNetworkConnection.getParticipantRegistry(`${namespace}.Camper`);
+            const alice = await camperRegistry.get('CAMPER_1');
+            alice.smoresInHand.should.have.length(0);
+            alice.smoresInBelly.should.have.length(1);
+        });
+
+        it('should not be able to eat a smore twice', async () => {
+            const factory = businessNetworkConnection.getBusinessNetwork().getFactory();
+
+            const eatSmoreTx = factory.newTransaction(namespace, 'EatSmore');
+            eatSmoreTx.smoreId = 'SMORE_1';
+
+            await businessNetworkConnection.disconnect();
+            await businessNetworkConnection.connect('CAMPER_1');
+
+            await businessNetworkConnection.submitTransaction(eatSmoreTx);
+            await businessNetworkConnection.submitTransaction(eatSmoreTx).should.be.rejectedWith('S\'More SMORE_1 not in camper CAMPER_1\'s hand!');
+        });
+
+        it('should not be able to eat someone else\'s smore', async () => {
+            const factory = businessNetworkConnection.getBusinessNetwork().getFactory();
+
+            const eatSmoreTx = factory.newTransaction(namespace, 'EatSmore');
+            eatSmoreTx.smoreId = 'SMORE_1';
+
+            await businessNetworkConnection.disconnect();
+            await businessNetworkConnection.connect('CAMPER_2');
+
+            await businessNetworkConnection.submitTransaction(eatSmoreTx).should.be.rejectedWith('S\'More SMORE_1 not in camper CAMPER_2\'s hand!');
+        });
+    });
+
+    describe('GiveSmore', () => {
+        it('should be able to give a smore in hand to another camper', async () => {
+            const factory = businessNetworkConnection.getBusinessNetwork().getFactory();
+
+            const giveSmoreTx = factory.newTransaction(namespace, 'GiveSmore');
+            giveSmoreTx.smoreId = 'SMORE_1';
+            giveSmoreTx.recipientCamperId = 'CAMPER_2';
+
+            await businessNetworkConnection.disconnect();
+            await businessNetworkConnection.connect('CAMPER_1');
+
+            await businessNetworkConnection.submitTransaction(giveSmoreTx);
+
+            const camperRegistry = await businessNetworkConnection.getParticipantRegistry(`${namespace}.Camper`);
+            const alice = await camperRegistry.get('CAMPER_1');
+            alice.smoresInHand.should.have.length(0);
+            alice.smoresInBelly.should.have.length(0);
+
+            const bob = await camperRegistry.get('CAMPER_2');
+            bob.smoresInHand.should.have.length(1);
+            bob.smoresInBelly.should.have.length(0);
+        });
+
+        it('should not be able to give a smore twice', async () => {
+            const factory = businessNetworkConnection.getBusinessNetwork().getFactory();
+
+            const giveSmoreTx = factory.newTransaction(namespace, 'GiveSmore');
+            giveSmoreTx.smoreId = 'SMORE_1';
+            giveSmoreTx.recipientCamperId = 'CAMPER_2';
+
+            await businessNetworkConnection.disconnect();
+            await businessNetworkConnection.connect('CAMPER_1');
+
+            await businessNetworkConnection.submitTransaction(giveSmoreTx);
+            await businessNetworkConnection.submitTransaction(giveSmoreTx).should.be.rejectedWith('S\'More SMORE_1 not in camper CAMPER_1\'s hand!');
+        });
+
+        it('should not be able to give someone else\'s smore', async () => {
+            const factory = businessNetworkConnection.getBusinessNetwork().getFactory();
+
+            const giveSmoreTx = factory.newTransaction(namespace, 'GiveSmore');
+            giveSmoreTx.smoreId = 'SMORE_1';
+            giveSmoreTx.recipientCamperId = 'CAMPER_2';
+
+            await businessNetworkConnection.disconnect();
+            await businessNetworkConnection.connect('CAMPER_2');
+
+            await businessNetworkConnection.submitTransaction(giveSmoreTx).should.be.rejectedWith('S\'More SMORE_1 not in camper CAMPER_2\'s hand!');
+        });
+    });
 });

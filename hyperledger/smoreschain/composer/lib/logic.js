@@ -83,7 +83,7 @@ function eatSmore(tx) {
         var smoreToEat;
 
         for (var i = 0; i < camper.smoresInHand.length; i++) {
-            if (camper.smoresInHand[i].smoreId === tx.smoreId) {
+            if (camper.smoresInHand[i].getIdentifier() === tx.smoreId) {
                 smoreToEat = camper.smoresInHand[i];
                 camper.smoresInHand.splice(i, 1);
                 break;
@@ -119,7 +119,7 @@ function giveSmore(tx) {
         var smoreToEat;
 
         for (var i = 0; i < camper.smoresInHand.length; i++) {
-            if (camper.smoresInHand[i].smoreId === tx.smoreId) {
+            if (camper.smoresInHand[i].getIdentifier() === tx.smoreId) {
                 smoreToEat = camper.smoresInHand[i];
                 camper.smoresInHand.splice(i, 1);
                 break;
