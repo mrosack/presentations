@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Tracking the creation and consumption of smores around the campfire!",
   "scripts": {
+    "build": "mkdirp ./dist && composer archive create --sourceType dir --sourceName . -a ./dist/smoreschain.bna",
     "test": "mocha --recursive",
     "lint": "eslint ."
   },
