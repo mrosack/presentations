@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Camper } from '../swagger/api';
+import { CampfireDataService } from '../campfireData.service';
 
 @Component({
   selector: 'sc-camper',
@@ -8,4 +9,8 @@ import { Camper } from '../swagger/api';
 })
 export class CamperComponent {
     @Input('camper') camper: Camper;
+    @Input('isYou') isYou = false;
+
+    constructor(public cdService: CampfireDataService) {
+    }
 }

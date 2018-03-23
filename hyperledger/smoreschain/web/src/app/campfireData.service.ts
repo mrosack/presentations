@@ -1,17 +1,28 @@
 import { Injectable } from '@angular/core';
-import { CamperService, Camper, SystemService, SmoreIngredientService, SmoreIngredient } from './swagger/api';
+import {
+    CamperService, Camper, SystemService, SmoreIngredientService, SmoreIngredient, Smore,
+    SmoreService, EatSmoreService, MakeSmoreService
+} from './swagger/api';
 
 @Injectable()
 export class CampfireDataService {
     private _campers: Camper[];
     private _ingredients: SmoreIngredient[];
+    private _smores: Smore[];
     private _activeCamperId: string;
 
     constructor(
         private camperService: CamperService,
         private ingredientService: SmoreIngredientService,
+        private smoreService: SmoreService,
+        private makeSmoreService: MakeSmoreService,
+        private eatSmoreService: EatSmoreService,
         private systemService: SystemService
     ) {
+    }
+
+    public get smores() {
+        return this._smores || [];
     }
 
     public get otherCampers() {
@@ -45,16 +56,53 @@ export class CampfireDataService {
     }
 
     public loadData() {
-      this.camperService.camperFind().subscribe(c => {
-        this._campers = c;
-      });
+        const resolveFilter = JSON.stringify({include: 'resolve'});
 
-      this.systemService.systemPing().subscribe(r => {
-        this._activeCamperId = r.participant.replace('com.rss.smoreschain.Camper#', '');
-      });
+        this.camperService.camperFind(resolveFilter).subscribe(c => {
+            this._campers = c;
+        });
 
-      this.ingredientService.smoreIngredientFind().subscribe(i => {
-          this._ingredients = i;
+        this.systemService.systemPing().subscribe(r => {
+            this._activeCamperId = r.participant.replace('com.rss.smoreschain.Camper#', '');
+        });
+
+        this.ingredientService.smoreIngredientFind(resolveFilter).subscribe(i => {
+            this._ingredients = i;
+        });
+
+        this.smoreService.smoreFind().subscribe(s => {
+            this._smores = s;
+        });
+    }
+
+    public createSmore(selectedIngredients: string[]) {
+        this.makeSmoreService.makeSmoreCreate({
+            smoreId: `SMORE_${this.smores.length + 1}`,
+            ingredients: selectedIngredients.map(i => {
+                return `com.rss.smoreschain.SmoreIngredient#${i}`;
+            })
+        }).subscribe(() => {
+            this.loadData();
+        }, e => {
+            this.handleError(e);
+        });
+    }
+
+    public eatSmore(smoreId: string) {
+      this.eatSmoreService.eatSmoreCreate({
+        smoreId
+      }).subscribe(() => {
+          this.loadData();
+      }, e => {
+          this.handleError(e);
       });
+    }
+
+    private handleError(e) {
+        if (e.error && e.error.error && e.error.error.message) {
+            alert(e.error.error.message);
+        } else {
+            alert(JSON.stringify(e));
+        }
     }
 }

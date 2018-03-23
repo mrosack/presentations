@@ -5,7 +5,21 @@
     <div class="card-body">
         <h5 class="card-title">S'Mores in Hand</h5>
         <p *ngIf="!camper.smoresInHand.length">None</p>
+    </div>
+    <ul *ngIf="camper.smoresInHand.length" class="list-group list-group-flush">
+        <li class="list-group-item" *ngFor="let smore of camper.smoresInHand">
+            <span *ngFor="let ingredient of smore.ingredients; let i = index">{{ i > 0 ? '/' : '' }} {{ingredient.brand}}</span>
+            <button *ngIf="isYou" class="btn btn-sm" (click)="cdService.eatSmore(smore.smoreId)">Eat</button>
+            <button *ngIf="isYou" class="btn btn-sm">Give</button>
+        </li>
+    </ul>
+    <div class="card-body">
         <h5 class="card-title">S'Mores in Belly</h5>
         <p *ngIf="!camper.smoresInBelly.length">None</p>
+        <ul *ngIf="camper.smoresInBelly.length" class="list-group list-group-flush">
+            <li class="list-group-item" *ngFor="let smore of camper.smoresInBelly">
+                <span *ngFor="let ingredient of smore.ingredients; let i = index">{{ i > 0 ? '/' : '' }} {{ingredient.brand}}</span>
+            </li>
+        </ul>
     </div>
 </div>

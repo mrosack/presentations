@@ -4,7 +4,7 @@
             Graham Crackers
         </div>
         <ul class="list-group list-group-flush">
-            <li class="list-group-item" *ngFor="let i of availableIngredientsByType('GRAHAM_CRACKER')">{{i.brand}}</li>
+            <li class="list-group-item" style="cursor:pointer;" [class.active]="selectedIngredients.includes(i.ingredientId)" (click)="toggle(i)" *ngFor="let i of availableIngredientsByType('GRAHAM_CRACKER')">{{i.brand}}</li>
         </ul>
     </div>
     <div class="card">
@@ -12,7 +12,7 @@
             Marshmallows
         </div>
         <ul class="list-group list-group-flush">
-            <li class="list-group-item" *ngFor="let i of availableIngredientsByType('MARSHMALLOW')">{{i.brand}}</li>
+                <li class="list-group-item" style="cursor:pointer;" [class.active]="selectedIngredients.includes(i.ingredientId)" (click)="toggle(i)" *ngFor="let i of availableIngredientsByType('MARSHMALLOW')">{{i.brand}}</li>
         </ul>
     </div>
     <div class="card">
@@ -20,9 +20,9 @@
             Chocolate
         </div>
         <ul class="list-group list-group-flush">
-            <li class="list-group-item" *ngFor="let i of availableIngredientsByType('CHOCOLATE')">{{i.brand}}</li>
+                <li class="list-group-item" style="cursor:pointer;" [class.active]="selectedIngredients.includes(i.ingredientId)" (click)="toggle(i)" *ngFor="let i of availableIngredientsByType('CHOCOLATE')">{{i.brand}}</li>
         </ul>
     </div>
 </div>
 
-<button class="btn btn-primary btn-block mt-3">Create S'More!</button>
+<button class="btn btn-primary btn-block mt-3" (click)="data.createSmore(selectedIngredients)">Create S'More!</button>

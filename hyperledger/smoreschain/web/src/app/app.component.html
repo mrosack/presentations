@@ -9,7 +9,7 @@
       <div class="row">
         <div class="col-3">
           <h1>You</h1>
-          <sc-camper *ngIf="cdService.activeCamper" [camper]="cdService.activeCamper"></sc-camper>
+          <sc-camper *ngIf="cdService.activeCamper" [camper]="cdService.activeCamper" [isYou]="true"></sc-camper>
         </div>
         <div class="col">
           <h1>Campfire</h1>
