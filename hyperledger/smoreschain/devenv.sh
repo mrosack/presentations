@@ -53,6 +53,14 @@ function create-fabric-and-deploy() {
   node seed/seed.js
 }
 
+function rest-mike() {
+  composer-rest-server -c mike@smoreschain -n never -w true
+}
+
+function rest-calvin() {
+  composer-rest-server -c calvin@smoreschain -n never -w true
+}
+
 case $arg1 in
 'install-global-packages')
   install-global-packages
@@ -70,6 +78,14 @@ case $arg1 in
   create-fabric-and-deploy
   ;;
 
+'rest-mike')
+  rest-mike
+  ;;
+
+'rest-calvin')
+  rest-calvin
+  ;;
+
 *)
   echo "devenv.sh will require some arguments"
   echo ""
@@ -78,4 +94,6 @@ case $arg1 in
   echo "teardown-fabric          - Destroys the current fabric instance"
   echo "create-fabric-and-deploy - Creates a new fabric instance and deploys"
   echo "                           smoreschain to it"
+  echo "rest-mike                - Runs the REST server as mike"
+  echo "rest-calvin              - Runs the REST server as calvin"
 esac

@@ -1,8 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
-
+import { ApiModule, Configuration } from './swagger/api';
 import { AppComponent } from './app.component';
+import { CampfireDataService } from './campfireData.service';
 
 
 @NgModule({
@@ -10,9 +10,14 @@ import { AppComponent } from './app.component';
     AppComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    ApiModule.forRoot(() => {
+      return new Configuration({
+        basePath: 'http://localhost:3000/api'
+      });
+    })
   ],
-  providers: [],
+  providers: [CampfireDataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

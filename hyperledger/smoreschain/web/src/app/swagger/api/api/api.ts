@@ -1,0 +1,15 @@
+export * from './camper.service';
+import { CamperService } from './camper.service';
+export * from './eatSmore.service';
+import { EatSmoreService } from './eatSmore.service';
+export * from './giveSmore.service';
+import { GiveSmoreService } from './giveSmore.service';
+export * from './makeSmore.service';
+import { MakeSmoreService } from './makeSmore.service';
+export * from './smore.service';
+import { SmoreService } from './smore.service';
+export * from './smoreIngredient.service';
+import { SmoreIngredientService } from './smoreIngredient.service';
+export * from './system.service';
+import { SystemService } from './system.service';
+export const APIS = [CamperService, EatSmoreService, GiveSmoreService, MakeSmoreService, SmoreService, SmoreIngredientService, SystemService];
