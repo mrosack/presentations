@@ -9,7 +9,7 @@ module.exports = {
         const ingredientBrands = {
             'GRAHAM_CRACKER': ['Honey Maid', 'Nabisco', 'Annie\'s', 'Generic'],
             'MARSHMALLOW': ['Stay Puft', 'Jet Puffed', 'Peeps', 'Generic'],
-            'CHOCOLATE': ['Hershey\'s', 'Ghiradelli', 'Generic']
+            'CHOCOLATE': ['Hershey\'s', 'Ghiradelli', 'Cadbury', 'Generic']
         };
 
         const ingredientPromises = [];

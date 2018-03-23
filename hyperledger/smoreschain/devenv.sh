@@ -46,15 +46,24 @@ function create-fabric-and-deploy() {
   composer identity issue -c admin@smoreschain -u mike -a 'resource:com.rss.smoreschain.Camper#CAMPER_1' --file dist/mike.card
   composer card import -f dist/mike.card
   
-  composer participant add -c admin@smoreschain -d '{"$class":"com.rss.smoreschain.Camper","camperId":"CAMPER_2","name": "Calvin", "smoresInHand": [], "smoresInBelly": []}'
-  composer identity issue -c admin@smoreschain -u calvin -a 'resource:com.rss.smoreschain.Camper#CAMPER_2' --file dist/calvin.card
+  composer participant add -c admin@smoreschain -d '{"$class":"com.rss.smoreschain.Camper","camperId":"CAMPER_2","name": "Sara", "smoresInHand": [], "smoresInBelly": []}'
+  composer identity issue -c admin@smoreschain -u sara -a 'resource:com.rss.smoreschain.Camper#CAMPER_2' --file dist/sara.card
+  composer card import -f dist/sara.card
+  
+  composer participant add -c admin@smoreschain -d '{"$class":"com.rss.smoreschain.Camper","camperId":"CAMPER_3","name": "Calvin", "smoresInHand": [], "smoresInBelly": []}'
+  composer identity issue -c admin@smoreschain -u calvin -a 'resource:com.rss.smoreschain.Camper#CAMPER_3' --file dist/calvin.card
   composer card import -f dist/calvin.card
 
+  # Seed ingredients...
   node seed/seed.js
 }
 
 function rest-mike() {
   composer-rest-server -c mike@smoreschain -n never -w true
+}
+
+function rest-sara() {
+  composer-rest-server -c sara@smoreschain -n never -w true
 }
 
 function rest-calvin() {
@@ -82,6 +91,10 @@ case $arg1 in
   rest-mike
   ;;
 
+'rest-sara')
+  rest-sara
+  ;;
+
 'rest-calvin')
   rest-calvin
   ;;
@@ -95,5 +108,6 @@ case $arg1 in
   echo "create-fabric-and-deploy - Creates a new fabric instance and deploys"
   echo "                           smoreschain to it"
   echo "rest-mike                - Runs the REST server as mike"
+  echo "rest-sara                - Runs the REST server as sara"
   echo "rest-calvin              - Runs the REST server as calvin"
 esac

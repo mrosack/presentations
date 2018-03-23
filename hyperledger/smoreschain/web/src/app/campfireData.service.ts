@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
     CamperService, Camper, SystemService, SmoreIngredientService, SmoreIngredient, Smore,
-    SmoreService, EatSmoreService, MakeSmoreService
+    SmoreService, EatSmoreService, MakeSmoreService, GiveSmoreService
 } from './swagger/api';
 
 @Injectable()
@@ -17,6 +17,7 @@ export class CampfireDataService {
         private smoreService: SmoreService,
         private makeSmoreService: MakeSmoreService,
         private eatSmoreService: EatSmoreService,
+        private giveSmoreService: GiveSmoreService,
         private systemService: SystemService
     ) {
     }
@@ -91,6 +92,17 @@ export class CampfireDataService {
     public eatSmore(smoreId: string) {
       this.eatSmoreService.eatSmoreCreate({
         smoreId
+      }).subscribe(() => {
+          this.loadData();
+      }, e => {
+          this.handleError(e);
+      });
+    }
+
+    public giveSmore(smoreId: string, recipientCamperId: string) {
+      this.giveSmoreService.giveSmoreCreate({
+        smoreId,
+        recipientCamperId
       }).subscribe(() => {
           this.loadData();
       }, e => {

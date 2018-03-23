@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card mb-2">
     <div class="card-header">
         {{camper.name}}
     </div>
@@ -8,9 +8,9 @@
     </div>
     <ul *ngIf="camper.smoresInHand.length" class="list-group list-group-flush">
         <li class="list-group-item" *ngFor="let smore of camper.smoresInHand">
-            <span *ngFor="let ingredient of smore.ingredients; let i = index">{{ i > 0 ? '/' : '' }} {{ingredient.brand}}</span>
+            <span *ngFor="let ingredient of smore.ingredients; let i = index">{{ i > 0 ? ' / ' : '' }}{{ingredient.brand}}</span>
             <button *ngIf="isYou" class="btn btn-sm" (click)="cdService.eatSmore(smore.smoreId)">Eat</button>
-            <button *ngIf="isYou" class="btn btn-sm">Give</button>
+            <button *ngIf="isYou" class="btn btn-sm" (click)="giveSmore(smore)">Give</button>
         </li>
     </ul>
     <div class="card-body">
@@ -23,3 +23,22 @@
         </ul>
     </div>
 </div>
+
+<ng-template #giveSmoreTemplate>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Give Smore</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p>Who do you want to give the S'More <b><span *ngFor="let ingredient of smoreToGive.ingredients; let i = index">{{ i > 0 ? ' / ' : '' }}{{ingredient.brand}}</span></b> to?</p>
+        <select [ngModel]="camperIdToGiveTo" class="custom-select">
+            <option *ngFor="let camper of cdService.otherCampers" [value]="camper.camperId">{{camper.name}}</option>
+        </select>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="cdService.giveSmore(smoreToGive.smoreId, camperIdToGiveTo);modalRef.hide()">Give S'More!</button>
+      <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Close</button>
+    </div>
+</ng-template>
