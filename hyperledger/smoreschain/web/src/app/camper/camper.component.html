@@ -1,0 +1,11 @@
+<div class="card">
+    <div class="card-header">
+        {{camper.name}}
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">S'Mores in Hand</h5>
+        <p *ngIf="!camper.smoresInHand.length">None</p>
+        <h5 class="card-title">S'Mores in Belly</h5>
+        <p *ngIf="!camper.smoresInBelly.length">None</p>
+    </div>
+</div>

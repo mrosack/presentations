@@ -6,19 +6,20 @@
   </header>
 
   <main role="main" class="inner cover">
-    <div class="container">
       <div class="row">
-        <div class="col">
-          <h1>You ({{cdService.activeCamper?.name}})</h1>
+        <div class="col-3">
+          <h1>You</h1>
+          <sc-camper *ngIf="cdService.activeCamper" [camper]="cdService.activeCamper"></sc-camper>
         </div>
         <div class="col">
           <h1>Campfire</h1>
+          <sc-campfire></sc-campfire>
         </div>
-        <div class="col">
+        <div class="col-3">
           <h1>Other Campers</h1>
+          <sc-camper *ngFor="let camper of cdService.otherCampers" [camper]="camper"></sc-camper>
         </div>
       </div>
-    </div>
   </main>
 
   <footer class="mastfoot mt-auto">

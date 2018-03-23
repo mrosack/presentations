@@ -14,8 +14,14 @@ export class CampfireDataService {
     ) {
     }
 
-    public get campers() {
-        return this._campers;
+    public get otherCampers() {
+        if (!this._campers) {
+            return [];
+        }
+
+        return this._campers.filter(c => {
+            return c.camperId !== this._activeCamperId;
+        });
     }
 
     public get activeCamper() {
@@ -30,7 +36,7 @@ export class CampfireDataService {
 
     public get availableIngredients() {
         if (!this._ingredients) {
-            return null;
+            return [];
         }
 
         return this._ingredients.filter(i => {
