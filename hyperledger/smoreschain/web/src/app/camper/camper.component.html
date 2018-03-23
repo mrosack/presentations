@@ -33,7 +33,7 @@
     </div>
     <div class="modal-body">
         <p>Who do you want to give the S'More <b><span *ngFor="let ingredient of smoreToGive.ingredients; let i = index">{{ i > 0 ? ' / ' : '' }}{{ingredient.brand}}</span></b> to?</p>
-        <select [ngModel]="camperIdToGiveTo" class="custom-select">
+        <select [(ngModel)]="camperIdToGiveTo" class="custom-select">
             <option *ngFor="let camper of cdService.otherCampers" [value]="camper.camperId">{{camper.name}}</option>
         </select>
     </div>

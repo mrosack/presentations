@@ -107,3 +107,30 @@ body {
 .mastfoot {
   color: rgba(255, 255, 255, .5);
 }
+
+/*
+ * Busy
+ */
+@keyframes busy-spinner-anim {
+  50% { transform: rotate(180deg) scale(1.5); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+.sc-busy {
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:100000;
+  width:100%;
+  height:100%;
+
+  &.backdrop {
+    background: rgba(0, 0, 0, 0.75);
+  }
+
+  &.spinner {
+    background: url(/assets/spinner.png) no-repeat fixed center;
+    background-size: 100px;
+    animation: busy-spinner-anim 2s linear infinite;
+  }
+}

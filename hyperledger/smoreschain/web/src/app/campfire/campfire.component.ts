@@ -28,4 +28,10 @@ export class CampfireComponent {
             this.selectedIngredients.push(ingredient.ingredientId);
         }
     }
+
+    public async createSmore() {
+        if (await this.data.createSmore(this.selectedIngredients)) {
+            this.selectedIngredients = [];
+        }
+    }
 }

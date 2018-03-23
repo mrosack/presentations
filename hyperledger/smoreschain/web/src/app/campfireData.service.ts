@@ -76,17 +76,22 @@ export class CampfireDataService {
         });
     }
 
-    public createSmore(selectedIngredients: string[]) {
-        this.makeSmoreService.makeSmoreCreate({
-            smoreId: `SMORE_${this.smores.length + 1}`,
-            ingredients: selectedIngredients.map(i => {
-                return `com.rss.smoreschain.SmoreIngredient#${i}`;
-            })
-        }).subscribe(() => {
+    public async createSmore(selectedIngredients: string[]) {
+        try {
+            await this.makeSmoreService.makeSmoreCreate({
+                smoreId: `SMORE_${this.smores.length + 1}`,
+                ingredients: selectedIngredients.map(i => {
+                    return `com.rss.smoreschain.SmoreIngredient#${i}`;
+                })
+            }).toPromise();
+
             this.loadData();
-        }, e => {
+
+            return true;
+        } catch (e) {
             this.handleError(e);
-        });
+            return false;
+        }
     }
 
     public eatSmore(smoreId: string) {
