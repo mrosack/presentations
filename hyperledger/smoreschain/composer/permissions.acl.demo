@@ -1,0 +1,107 @@
+rule CampersCanReadEverything {
+    description: "Allow all campers read access to all resources"
+    participant: "com.rss.smoreschain.Camper"
+    operation: READ
+    resource: "com.rss.smoreschain.*"
+    action: ALLOW
+}
+
+rule CampersCanAddSmoresIngredients {
+    description: "Allow all campers to add ingredients"
+    participant: "com.rss.smoreschain.Camper"
+    operation: CREATE
+    resource: "com.rss.smoreschain.SmoreIngredient"
+    action: ALLOW
+}
+
+
+/** BEGIN MakeSmore **/
+
+rule CampersCanCallMakeSmore {
+    description: "Campers can create MakeSmore transactions"
+    participant: "com.rss.smoreschain.Camper"
+    operation: CREATE
+    resource: "com.rss.smoreschain.MakeSmore"
+    action: ALLOW
+}
+
+rule CampersCanCreateSmoresThroughMakeSmore {
+    description: "Campers can create S'Mores through MakeSmore"
+    participant: "com.rss.smoreschain.Camper"
+    operation: CREATE
+    resource: "com.rss.smoreschain.Smore"
+    transaction: "com.rss.smoreschain.MakeSmore"
+    action: ALLOW
+}
+
+rule CampersCanUpdateIngredientsThroughMakeSmore {
+    description: "Campers can claim ingredients through MakeSmore"
+    participant: "com.rss.smoreschain.Camper"
+    operation: UPDATE
+    resource: "com.rss.smoreschain.SmoreIngredient"
+    transaction: "com.rss.smoreschain.MakeSmore"
+    action: ALLOW
+}
+
+rule CampersCanUpdateThemselvesThroughMakeSmore {
+    description: "Campers can update their S'More lists through MakeSmore"
+    participant(p): "com.rss.smoreschain.Camper"
+    operation: UPDATE
+    resource(r): "com.rss.smoreschain.Camper"
+    transaction(tx): "com.rss.smoreschain.MakeSmore"
+    condition: (p.camperId == r.camperId)
+    action: ALLOW
+}
+
+/** END MakeSmore **/
+
+
+/** BEGIN EatSmore **/
+
+rule CampersCanCallEatSmore {
+    description: "Campers can create EatSmore transactions"
+    participant: "com.rss.smoreschain.Camper"
+    operation: CREATE
+    resource: "com.rss.smoreschain.EatSmore"
+    action: ALLOW
+}
+
+/** END EatSmore **/
+
+
+/** BEGIN GiveSmore **/
+
+rule CampersCanCallGiveSmore {
+    description: "Campers can create GiveSmore transactions"
+    participant: "com.rss.smoreschain.Camper"
+    operation: CREATE
+    resource: "com.rss.smoreschain.GiveSmore"
+    action: ALLOW
+}
+
+/** END GiveSmore **/
+
+
+rule SystemACL {
+  description:  "System ACL to permit all access"
+  participant: "org.hyperledger.composer.system.Participant"
+  operation: ALL
+  resource: "org.hyperledger.composer.system.**"
+  action: ALLOW
+}
+
+rule NetworkAdminUser {
+    description: "Grant business network administrators full access to user resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "**"
+    action: ALLOW
+}
+
+rule NetworkAdminSystem {
+    description: "Grant business network administrators full access to system resources"
+    participant: "org.hyperledger.composer.system.NetworkAdmin"
+    operation: ALL
+    resource: "org.hyperledger.composer.system.**"
+    action: ALLOW
+}

@@ -181,7 +181,7 @@ describe('#' + namespace, () => {
             await businessNetworkConnection.disconnect();
             await businessNetworkConnection.connect('CAMPER_1');
 
-            await businessNetworkConnection.submitTransaction(makeSmoreTx).should.be.rejectedWith('Ingredient GRAHAM_CRACKER_1 already belongs to a S\'More!');
+            await businessNetworkConnection.submitTransaction(makeSmoreTx).should.be.rejectedWith(/already belongs to a S\'More!/);
         });
     });
 
