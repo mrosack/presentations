@@ -15,39 +15,35 @@ namespace BridgeDemo.Lib
             }
         }
 
+        public TicTacToeGame()
+        {
+        }
 
-        public void PlayHumanTurn(int x, int y)
+        public TicTacToeGame(TicTacToePlayer?[,] board)
+        {
+            if (board.GetLength(0) != 3 || board.GetLength(1) != 3)
+            {
+                throw new InvalidOperationException("Board must be 3x3!");
+            }
+
+            this.board = board;
+        }
+
+        public void PlayHumanTurn(int row, int col)
         {
             if (GameOver)
                 throw new InvalidOperationException("Game over, man!");
 
-            if (board[x, y].HasValue)
+            if (board[row, col].HasValue)
                 throw new InvalidOperationException("Square already played!");
 
-            board[x, y] = TicTacToePlayer.Human;
+            board[row, col] = TicTacToePlayer.Human;
 
             if (!GameOver)
             {
                 // Play AI Turn
-                for (var bx = 0; bx < 3; bx++)
-                {
-                    for (var by = 0; by < 3; by++)
-                    {
-                        if (!board[bx, by].HasValue)
-                        {
-                            var cloneBoard = (TicTacToePlayer?[,])board.Clone();
-
-                            // Test this move with minimax...
-                            cloneBoard[bx, by] = TicTacToePlayer.AI;
-                            if (Minimax(cloneBoard, TicTacToePlayer.AI) == 1)
-                            {
-                                // Minimax says this move is OK, make it...
-                                board[bx, by] = TicTacToePlayer.AI;
-                                break;
-                            }
-                        }
-                    }
-                }
+                var bestMove = FindBestMove(board, TicTacToePlayer.AI);
+                board[bestMove.bestRow, bestMove.bestCol] = TicTacToePlayer.AI;
             }
         }
 
@@ -63,40 +59,81 @@ namespace BridgeDemo.Lib
         {
             get
             {
-                return board.Cast<TicTacToePlayer?[]>().All(x => x.All(y => y.HasValue)) || Winner.HasValue;
+                bool allFilled = board.Cast<TicTacToePlayer?>().All(x => x.HasValue);
+                return allFilled || Winner.HasValue;
             }
+        }
+
+        public static (int bestRow, int bestCol) FindBestMove(TicTacToePlayer?[,] board, TicTacToePlayer player)
+        {
+            var bestRow = 0;
+            var bestCol = 0;
+            var bestScore = -2;
+
+            for (var bRow = 0; bRow < 3; bRow++)
+            {
+                for (var bCol = 0; bCol < 3; bCol++)
+                {
+                    if (!board[bRow, bCol].HasValue)
+                    {
+                        var cloneBoard = (TicTacToePlayer?[,])board.Clone();
+
+                        // Test this move with minimax...
+                        cloneBoard[bRow, bCol] = TicTacToePlayer.AI;
+                        var curScore = Minimax(cloneBoard, player, player);
+                        if (curScore > bestScore)
+                        {
+                            bestScore = curScore;
+                            bestRow = bRow;
+                            bestCol = bCol;
+                        }
+                    }
+                }
+            }
+
+            return (bestRow, bestCol);
         }
 
         /// <summary>
         /// https://towardsdatascience.com/tic-tac-toe-creating-unbeatable-ai-with-minimax-algorithm-8af9e52c1e7d
+        /// https://www.geeksforgeeks.org/minimax-algorithm-in-game-theory-set-3-tic-tac-toe-ai-finding-optimal-move/
         /// </summary>
-        public static int Minimax(TicTacToePlayer?[,] board, TicTacToePlayer player)
+        public static int Minimax(TicTacToePlayer?[,] board, TicTacToePlayer maximizingPlayer, TicTacToePlayer player)
         {
             var winner = GetWinner(board);
 
             if (winner.HasValue)
             {
-                return winner == player ? 1 : -1;
+                return winner == maximizingPlayer ? 1 : -1;
             }
 
             int? score = null;
 
-            for (var x = 0; x < 3; x++)
+            for (var row = 0; row < 3; row++)
             {
-                for (var y = 0; y < 3; y++)
+                for (var col = 0; col < 3; col++)
                 {
-                    if (!board[x, y].HasValue)
+                    if (!board[row, col].HasValue)
                     {
                         var cloneBoard = (TicTacToePlayer?[,])board.Clone();
-                        // Try the move
-                        cloneBoard[x, y] = player;
+                        var nextPlayer = (TicTacToePlayer)((int)player * -1);
+                        cloneBoard[row, col] = nextPlayer;
 
-                        // move will be for the other player, so we want negative score
-                        var scoreForTheMove = -Minimax(cloneBoard, (TicTacToePlayer)((int)player * -1));
+                        var scoreForTheMove = Minimax(cloneBoard, maximizingPlayer, nextPlayer);
 
-                        if (!score.HasValue || scoreForTheMove > score)
+                        if (maximizingPlayer == nextPlayer)
                         {
-                            score = scoreForTheMove;
+                            if (!score.HasValue || scoreForTheMove > score)
+                            {
+                                score = scoreForTheMove;
+                            }
+                        }
+                        else
+                        {
+                            if (!score.HasValue || scoreForTheMove < score)
+                            {
+                                score = scoreForTheMove;
+                            }
                         }
                     }
                 }
