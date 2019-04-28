@@ -3,6 +3,24 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Tic Tac Toe!</h1>
 </div>
+<div class="row">
+    <div class="col-sm tttSquare" data-row="0" data-col="0"></div>
+    <div class="col-sm tttSquare" data-row="0" data-col="1"></div>
+    <div class="col-sm tttSquare" data-row="0" data-col="2"></div>
+</div>
+<div class="row">
+    <div class="col-sm tttSquare" data-row="1" data-col="0"></div>
+    <div class="col-sm tttSquare" data-row="1" data-col="1"></div>
+    <div class="col-sm tttSquare" data-row="1" data-col="2"></div>
+</div>
+<div class="row">
+    <div class="col-sm tttSquare" data-row="2" data-col="0"></div>
+    <div class="col-sm tttSquare" data-row="2" data-col="1"></div>
+    <div class="col-sm tttSquare" data-row="2" data-col="2"></div>
+</div>
+
+@section Scripts  {
+    <script src="~/bridgeJs/BridgeDemo/Bridge/UI/TicTacToe.js" asp-append-version="true"></script>
+}
