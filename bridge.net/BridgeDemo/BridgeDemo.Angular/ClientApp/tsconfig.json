@@ -1,0 +1,22 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es5",
+    "typeRoots": [
+      "node_modules/@types",
+      "_src/_bridgeJs/bridge.d.ts",
+      "_src/_bridgeJs/BridgeDemo.Lib.d.ts"
+    ],
+    "lib": [
+      "es2017",
+      "dom"
+    ]
+  }
+}

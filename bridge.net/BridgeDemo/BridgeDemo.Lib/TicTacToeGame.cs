@@ -43,7 +43,7 @@ namespace BridgeDemo.Lib
             {
                 // Play AI Turn
                 var bestMove = FindBestMove(board, TicTacToePlayer.AI);
-                board[bestMove.bestRow, bestMove.bestCol] = TicTacToePlayer.AI;
+                board[bestMove.Row, bestMove.Col] = TicTacToePlayer.AI;
             }
         }
 
@@ -64,7 +64,7 @@ namespace BridgeDemo.Lib
             }
         }
 
-        public static (int bestRow, int bestCol) FindBestMove(TicTacToePlayer?[,] board, TicTacToePlayer player)
+        public static RowCol FindBestMove(TicTacToePlayer?[,] board, TicTacToePlayer player)
         {
             var bestRow = 0;
             var bestCol = 0;
@@ -91,7 +91,7 @@ namespace BridgeDemo.Lib
                 }
             }
 
-            return (bestRow, bestCol);
+            return new RowCol { Row = bestRow, Col = bestCol };
         }
 
         /// <summary>
@@ -164,6 +164,13 @@ namespace BridgeDemo.Lib
                 return board[0, 2];
 
             return null;
+        }
+
+        public class RowCol
+        {
+            public int Row { get; set; }
+
+            public int Col { get; set; }
         }
     }
 }

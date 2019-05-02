@@ -1,0 +1,12 @@
+.tttSquare {
+  text-align: center;
+  border: 1px solid grey;
+  height: 100px;
+  font-size: 80px;
+  line-height: 90px;
+  cursor: pointer;
+}
+
+  .tttSquare:hover {
+    background-color: #ddd;
+  }

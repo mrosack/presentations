@@ -59,6 +59,7 @@
   <ItemGroup>
     <None Include="afterBuild.bat" />
     <None Include="bridge.json" />
+    <None Include="FixSystemNamespace.ps1" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

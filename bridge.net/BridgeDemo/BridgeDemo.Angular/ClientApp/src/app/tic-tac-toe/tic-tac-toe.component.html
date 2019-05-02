@@ -1,0 +1,24 @@
+<div class="text-center">
+  <h1 class="display-4">Tic Tac Toe!</h1>
+</div>
+<div class="row">
+  <div class="col-sm tttSquare" (click)="squareClick(0, 0)">{{ squareContent(0, 0) }}</div>
+  <div class="col-sm tttSquare" (click)="squareClick(0, 1)">{{ squareContent(0, 1) }}</div>
+  <div class="col-sm tttSquare" (click)="squareClick(0, 2)">{{ squareContent(0, 2) }}</div>
+</div>
+<div class="row">
+  <div class="col-sm tttSquare" (click)="squareClick(1, 0)">{{ squareContent(1, 0) }}</div>
+  <div class="col-sm tttSquare" (click)="squareClick(1, 1)">{{ squareContent(1, 1) }}</div>
+  <div class="col-sm tttSquare" (click)="squareClick(1, 2)">{{ squareContent(1, 2) }}</div>
+</div>
+<div class="row">
+  <div class="col-sm tttSquare" (click)="squareClick(2, 0)">{{ squareContent(2, 0) }}</div>
+  <div class="col-sm tttSquare" (click)="squareClick(2, 1)">{{ squareContent(2, 1) }}</div>
+  <div class="col-sm tttSquare" (click)="squareClick(2, 2)">{{ squareContent(2, 2) }}</div>
+</div>
+
+<div class="row mt-5">
+  <div class="col text-center">
+    <button class="btn btn-primary btn-lg" (click)="reset()">Reset Game</button>
+  </div>
+</div>

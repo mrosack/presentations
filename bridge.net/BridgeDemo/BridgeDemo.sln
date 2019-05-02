@@ -3,16 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28803.156
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeDemo.Mvc", "BridgeDemo.Mvc\BridgeDemo.Mvc.csproj", "{35C28CB5-9151-406D-A9A8-C78BF1CA8AE0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BridgeDemo.Mvc", "BridgeDemo.Mvc\BridgeDemo.Mvc.csproj", "{35C28CB5-9151-406D-A9A8-C78BF1CA8AE0}"
 	ProjectSection(ProjectDependencies) = postProject
 		{6499011B-DD85-4FBC-9047-9B61BFF48427} = {6499011B-DD85-4FBC-9047-9B61BFF48427}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeDemo.Lib", "BridgeDemo.Lib\BridgeDemo.Lib.csproj", "{11D8A5EA-06A4-4986-AC19-D7BE91693E6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BridgeDemo.Lib", "BridgeDemo.Lib\BridgeDemo.Lib.csproj", "{11D8A5EA-06A4-4986-AC19-D7BE91693E6F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeDemo.Bridge", "BridgeDemo.Bridge\BridgeDemo.Bridge.csproj", "{6499011B-DD85-4FBC-9047-9B61BFF48427}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BridgeDemo.Test", "BridgeDemo.Test\BridgeDemo.Test.csproj", "{F3E89037-2133-4A3C-A9CB-4AEDAAC3B789}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BridgeDemo.Test", "BridgeDemo.Test\BridgeDemo.Test.csproj", "{F3E89037-2133-4A3C-A9CB-4AEDAAC3B789}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BridgeDemo.Angular", "BridgeDemo.Angular\BridgeDemo.Angular.csproj", "{CA829C8B-7260-4AE6-A6DB-A821AB8C11FC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6499011B-DD85-4FBC-9047-9B61BFF48427} = {6499011B-DD85-4FBC-9047-9B61BFF48427}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,6 +41,10 @@ Global
 		{F3E89037-2133-4A3C-A9CB-4AEDAAC3B789}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3E89037-2133-4A3C-A9CB-4AEDAAC3B789}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3E89037-2133-4A3C-A9CB-4AEDAAC3B789}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA829C8B-7260-4AE6-A6DB-A821AB8C11FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA829C8B-7260-4AE6-A6DB-A821AB8C11FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA829C8B-7260-4AE6-A6DB-A821AB8C11FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA829C8B-7260-4AE6-A6DB-A821AB8C11FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
