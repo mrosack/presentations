@@ -29,7 +29,7 @@ namespace BridgeDemo.Bridge.UI.TicTacToe
             {
                 var square = new TicTacToeSquare(el);
                 
-                switch (game.Board[square.Row, square.Col])
+                switch (game[square.Row, square.Col])
                 {
                     case TicTacToePlayer.AI:
                         el.InnerHTML = "O";
@@ -57,10 +57,12 @@ namespace BridgeDemo.Bridge.UI.TicTacToe
                 Window.Alert(ex.Message);
             }
 
-            if (game.GameOver)
+            if (game.IsGameOver())
             {
-                if (game.Winner.HasValue)
-                    Window.Alert($"{game.Winner.ToString()} is the winner!");
+                var winner = game.CheckWinner();
+
+                if (winner.HasValue)
+                    Window.Alert($"{winner.ToString()} is the winner!");
                 else
                     Window.Alert("It's a draw!");
             }

@@ -15,6 +15,11 @@ namespace BridgeDemo.Mvc.Controllers
             return View();
         }
 
+        public IActionResult Performance()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();

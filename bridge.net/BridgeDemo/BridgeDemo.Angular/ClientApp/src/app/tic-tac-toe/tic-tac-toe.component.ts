@@ -20,10 +20,12 @@ export class TicTacToeComponent {
     }
 
     setTimeout(() => {
-      if (this.game.GameOver) {
-        if (this.game.Winner)
+      if (this.game.IsGameOver()) {
+        const winner = this.game.CheckWinner();
 
-          alert(`${this.game.Winner === Lib.TicTacToePlayer.AI ? 'AI' : 'Human'} is the winner!`);
+        if (winner)
+
+          alert(`${winner === Lib.TicTacToePlayer.AI ? 'AI' : 'Human'} is the winner!`);
         else
           alert("It's a draw!");
       }
@@ -31,8 +33,8 @@ export class TicTacToeComponent {
   }
 
   public squareContent(row: number, col: number) {
-    // Javascript doesn't have 2d arrays, so it's converted to a 1d array (which I think is how .NET does it behind the scenes anyway)
-    switch (this.game.Board[row * 3 + col]) {
+    // Bridge translates the indexer to the getItem function
+    switch (this.game.getItem(row, col)) {
       case Lib.TicTacToePlayer.AI:
         return "O";
 

@@ -46,6 +46,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\BridgeDemo.Lib\PerformanceTests.cs">
+      <Link>PerformanceTests.cs</Link>
+    </Compile>
     <Compile Include="..\BridgeDemo.Lib\TicTacToeGame.cs">
       <Link>TicTacToeGame.cs</Link>
     </Compile>
@@ -53,13 +56,13 @@
       <Link>TicTacToePlayer.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\Performance\PerformanceUi.cs" />
     <Compile Include="UI\TicTacToe\TicTacToeSquare.cs" />
     <Compile Include="UI\TicTacToe\TicTacToeUi.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="afterBuild.bat" />
     <None Include="bridge.json" />
-    <None Include="FixSystemNamespace.ps1" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

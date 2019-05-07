@@ -5,13 +5,30 @@ namespace BridgeDemo.Lib
 {
     public class TicTacToeGame
     {
-        private TicTacToePlayer?[,] board = new TicTacToePlayer?[3,3];
+        private TicTacToePlayer?[] board = new TicTacToePlayer?[9];
 
-        public TicTacToePlayer?[,] Board
+        public TicTacToePlayer? this[int row, int col]
         {
             get
             {
-                return (TicTacToePlayer?[,])board.Clone();
+                if (row < 0 || row > 2)
+                    throw new InvalidOperationException("Row must be 0, 1 or 2");
+
+                if (col < 0 || col > 2)
+                    throw new InvalidOperationException("Col must be 0, 1 or 2");
+
+                return board[row * 3 + col];
+            }
+
+            private set
+            {
+                if (row < 0 || row > 2)
+                    throw new InvalidOperationException("Row must be 0, 1 or 2");
+
+                if (col < 0 || col > 2)
+                    throw new InvalidOperationException("Col must be 0, 1 or 2");
+
+                board[row * 3 + col] = value;
             }
         }
 
@@ -19,11 +36,11 @@ namespace BridgeDemo.Lib
         {
         }
 
-        public TicTacToeGame(TicTacToePlayer?[,] board)
+        public TicTacToeGame(TicTacToePlayer?[] board)
         {
-            if (board.GetLength(0) != 3 || board.GetLength(1) != 3)
+            if (board.Length != 9)
             {
-                throw new InvalidOperationException("Board must be 3x3!");
+                throw new InvalidOperationException("Board must have 9 spaces!");
             }
 
             this.board = board;
@@ -31,40 +48,54 @@ namespace BridgeDemo.Lib
 
         public void PlayHumanTurn(int row, int col)
         {
-            if (GameOver)
+            var gameOver = IsGameOver();
+
+            if (gameOver)
                 throw new InvalidOperationException("Game over, man!");
 
-            if (board[row, col].HasValue)
+            if (this[row, col].HasValue)
                 throw new InvalidOperationException("Square already played!");
 
-            board[row, col] = TicTacToePlayer.Human;
+            this[row, col] = TicTacToePlayer.Human;
 
-            if (!GameOver)
+            if (!gameOver)
             {
                 // Play AI Turn
-                var bestMove = FindBestMove(board, TicTacToePlayer.AI);
-                board[bestMove.Row, bestMove.Col] = TicTacToePlayer.AI;
+                var bestMove = FindBestMove(TicTacToePlayer.AI);
+                this[bestMove.Row, bestMove.Col] = TicTacToePlayer.AI;
             }
         }
 
-        public TicTacToePlayer? Winner
+        public TicTacToePlayer? CheckWinner()
         {
-            get
+            // Check rows/columns...
+            for (int i = 0; i < 3; i++)
             {
-                return GetWinner(board);
+                if (this[i, 0].HasValue && this[i, 0] == this[i, 1] && this[i, 1] == this[i, 2])
+                    return this[i, 0];
+
+                if (this[0, i].HasValue && this[0, i] == this[1, i] && this[1, i] == this[2, i])
+                    return this[0, i];
             }
+
+            // Check diagonals...
+            if (this[0, 0].HasValue && this[0, 0] == this[1, 1] && this[1, 1] == this[2, 2])
+                return this[0, 0];
+
+            // Check diagonals...
+            if (this[0, 2].HasValue && this[0, 2] == this[1, 1] && this[1, 1] == this[2, 0])
+                return this[0, 2];
+
+            return null;
         }
 
-        public bool GameOver
+        public bool IsGameOver()
         {
-            get
-            {
-                bool allFilled = board.Cast<TicTacToePlayer?>().All(x => x.HasValue);
-                return allFilled || Winner.HasValue;
-            }
+            bool allFilled = board.All(x => x.HasValue);
+            return allFilled || CheckWinner().HasValue;
         }
 
-        public static RowCol FindBestMove(TicTacToePlayer?[,] board, TicTacToePlayer player)
+        public RowCol FindBestMove(TicTacToePlayer player)
         {
             var bestRow = 0;
             var bestCol = 0;
@@ -74,13 +105,13 @@ namespace BridgeDemo.Lib
             {
                 for (var bCol = 0; bCol < 3; bCol++)
                 {
-                    if (!board[bRow, bCol].HasValue)
+                    if (!this[bRow, bCol].HasValue)
                     {
-                        var cloneBoard = (TicTacToePlayer?[,])board.Clone();
+                        var cloneGame = new TicTacToeGame((TicTacToePlayer?[])board.Clone());
 
                         // Test this move with minimax...
-                        cloneBoard[bRow, bCol] = TicTacToePlayer.AI;
-                        var curScore = Minimax(cloneBoard, player, player);
+                        cloneGame[bRow, bCol] = TicTacToePlayer.AI;
+                        var curScore = cloneGame.Minimax(player, player);
                         if (curScore > bestScore)
                         {
                             bestScore = curScore;
@@ -98,9 +129,9 @@ namespace BridgeDemo.Lib
         /// https://towardsdatascience.com/tic-tac-toe-creating-unbeatable-ai-with-minimax-algorithm-8af9e52c1e7d
         /// https://www.geeksforgeeks.org/minimax-algorithm-in-game-theory-set-3-tic-tac-toe-ai-finding-optimal-move/
         /// </summary>
-        public static int Minimax(TicTacToePlayer?[,] board, TicTacToePlayer maximizingPlayer, TicTacToePlayer player)
+        public int Minimax(TicTacToePlayer maximizingPlayer, TicTacToePlayer player)
         {
-            var winner = GetWinner(board);
+            var winner = CheckWinner();
 
             if (winner.HasValue)
             {
@@ -113,13 +144,13 @@ namespace BridgeDemo.Lib
             {
                 for (var col = 0; col < 3; col++)
                 {
-                    if (!board[row, col].HasValue)
+                    if (!this[row, col].HasValue)
                     {
-                        var cloneBoard = (TicTacToePlayer?[,])board.Clone();
+                        var cloneGame = new TicTacToeGame((TicTacToePlayer?[])board.Clone());
                         var nextPlayer = (TicTacToePlayer)((int)player * -1);
-                        cloneBoard[row, col] = nextPlayer;
+                        cloneGame[row, col] = nextPlayer;
 
-                        var scoreForTheMove = Minimax(cloneBoard, maximizingPlayer, nextPlayer);
+                        var scoreForTheMove = cloneGame.Minimax(maximizingPlayer, nextPlayer);
 
                         if (maximizingPlayer == nextPlayer)
                         {
@@ -143,34 +174,18 @@ namespace BridgeDemo.Lib
             return score.GetValueOrDefault();
         }
 
-        public static TicTacToePlayer? GetWinner(TicTacToePlayer?[,] board)
-        {
-            // Check rows/columns...
-            for (int i = 0; i < 3; i++)
-            {
-                if (board[i, 0].HasValue && board[i, 0] == board[i, 1] && board[i, 1] == board[i, 2])
-                    return board[i, 0];
-
-                if (board[0, i].HasValue && board[0, i] == board[1, i] && board[1, i] == board[2, i])
-                    return board[0, i];
-            }
-
-            // Check diagonals...
-            if (board[0, 0].HasValue && board[0, 0] == board[1, 1] && board[1, 1] == board[2, 2])
-                return board[0, 0];
-
-            // Check diagonals...
-            if (board[0, 2].HasValue && board[0, 2] == board[1, 1] && board[1, 1] == board[2, 0])
-                return board[0, 2];
-
-            return null;
-        }
-
         public class RowCol
         {
             public int Row { get; set; }
 
             public int Col { get; set; }
+
+            public override bool Equals(object obj)
+            {
+                var other = obj as RowCol;
+
+                return other != null && Row == other.Row && Col == other.Col;
+            }
         }
     }
 }

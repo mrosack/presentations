@@ -9,91 +9,97 @@ namespace BridgeDemo.Test
         [TestMethod]
         public void TestBestMove()
         {
-            var board = new TicTacToePlayer?[3, 3]
+            var board = new TicTacToePlayer?[]
             {
-                { TicTacToePlayer.Human, TicTacToePlayer.Human, null },
-                { TicTacToePlayer.AI, TicTacToePlayer.AI, null },
-                { TicTacToePlayer.Human, TicTacToePlayer.AI, null }
+                TicTacToePlayer.Human, TicTacToePlayer.Human, null,
+                TicTacToePlayer.AI, TicTacToePlayer.AI, null,
+                TicTacToePlayer.Human, TicTacToePlayer.AI, null
             };
 
-            Assert.AreEqual((1, 2), TicTacToeGame.FindBestMove(board, TicTacToePlayer.AI));
-            Assert.AreEqual((0, 2), TicTacToeGame.FindBestMove(board, TicTacToePlayer.Human));
+            var game = new TicTacToeGame(board);
 
-            board = new TicTacToePlayer?[3, 3]
+            Assert.AreEqual(new TicTacToeGame.RowCol { Row = 1, Col = 2 }, game.FindBestMove(TicTacToePlayer.AI));
+            Assert.AreEqual(new TicTacToeGame.RowCol { Row = 0, Col = 2 }, game.FindBestMove(TicTacToePlayer.Human));
+
+            board = new TicTacToePlayer?[]
             {
-                { TicTacToePlayer.AI, null, null },
-                { TicTacToePlayer.Human, TicTacToePlayer.Human, null },
-                { null, null, null }
+                TicTacToePlayer.AI, null, null,
+                TicTacToePlayer.Human, TicTacToePlayer.Human, null,
+                null, null, null
             };
 
-            Assert.AreEqual((1, 2), TicTacToeGame.FindBestMove(board, TicTacToePlayer.AI));
+            game = new TicTacToeGame(board);
+
+            Assert.AreEqual(new TicTacToeGame.RowCol { Row = 1, Col = 2 }, game.FindBestMove(TicTacToePlayer.AI));
         }
 
         [TestMethod]
         public void TestMinimax()
         {
-            var board = new TicTacToePlayer?[3, 3]
+            var board = new TicTacToePlayer?[]
             {
-                { TicTacToePlayer.Human, TicTacToePlayer.Human, null },
-                { TicTacToePlayer.AI, TicTacToePlayer.AI, null },
-                { TicTacToePlayer.Human, TicTacToePlayer.AI, null }
+                TicTacToePlayer.Human, TicTacToePlayer.Human, null,
+                TicTacToePlayer.AI, TicTacToePlayer.AI, null,
+                TicTacToePlayer.Human, TicTacToePlayer.AI, null
             };
 
-            Assert.AreEqual(-1, TicTacToeGame.Minimax(board, TicTacToePlayer.AI, TicTacToePlayer.AI));
-            Assert.AreEqual(1, TicTacToeGame.Minimax(board, TicTacToePlayer.Human, TicTacToePlayer.AI));
-            Assert.AreEqual(1, TicTacToeGame.Minimax(board, TicTacToePlayer.AI, TicTacToePlayer.Human));
-            Assert.AreEqual(-1, TicTacToeGame.Minimax(board, TicTacToePlayer.Human, TicTacToePlayer.Human));
+            var game = new TicTacToeGame(board);
+
+            Assert.AreEqual(-1, game.Minimax(TicTacToePlayer.AI, TicTacToePlayer.AI));
+            Assert.AreEqual(1, game.Minimax(TicTacToePlayer.Human, TicTacToePlayer.AI));
+            Assert.AreEqual(1, game.Minimax(TicTacToePlayer.AI, TicTacToePlayer.Human));
+            Assert.AreEqual(-1, game.Minimax(TicTacToePlayer.Human, TicTacToePlayer.Human));
         }
 
         [TestMethod]
         public void AiWillBlockWins()
         {
-            var game = new TicTacToeGame(new TicTacToePlayer?[3, 3]
+            var game = new TicTacToeGame(new TicTacToePlayer?[]
             {
-                { null, TicTacToePlayer.Human, null },
-                { null, TicTacToePlayer.AI, null },
-                { null, null, null }
+                null, TicTacToePlayer.Human, null,
+                null, TicTacToePlayer.AI, null,
+                null, null, null
             });
 
             game.PlayHumanTurn(0, 0);
 
-            Assert.AreEqual(TicTacToePlayer.AI, game.Board[0, 2]);
+            Assert.AreEqual(TicTacToePlayer.AI, game[0, 2]);
 
 
-            game = new TicTacToeGame(new TicTacToePlayer?[3, 3]
+            game = new TicTacToeGame(new TicTacToePlayer?[]
             {
-                { null, TicTacToePlayer.Human, null },
-                { null, TicTacToePlayer.AI, null },
-                { null, null, null }
+                null, TicTacToePlayer.Human, null,
+                null, TicTacToePlayer.AI, null,
+                null, null, null
             });
 
             game.PlayHumanTurn(0, 2);
 
-            Assert.AreEqual(TicTacToePlayer.AI, game.Board[0, 0]);
+            Assert.AreEqual(TicTacToePlayer.AI, game[0, 0]);
 
 
-            game = new TicTacToeGame(new TicTacToePlayer?[3, 3]
+            game = new TicTacToeGame(new TicTacToePlayer?[]
             {
-                { TicTacToePlayer.AI, null, null },
-                { null, TicTacToePlayer.Human, null },
-                { null, null, null }
+                TicTacToePlayer.AI, null, null,
+                null, TicTacToePlayer.Human, null,
+                null, null, null
             });
 
             game.PlayHumanTurn(1, 0);
 
-            Assert.AreEqual(TicTacToePlayer.AI, game.Board[1, 2]);
+            Assert.AreEqual(TicTacToePlayer.AI, game[1, 2]);
 
 
-            game = new TicTacToeGame(new TicTacToePlayer?[3, 3]
+            game = new TicTacToeGame(new TicTacToePlayer?[]
             {
-                { TicTacToePlayer.AI, TicTacToePlayer.Human, null },
-                { null, null, null },
-                { null, null, null }
+                TicTacToePlayer.AI, TicTacToePlayer.Human, null,
+                null, null, null,
+                null, null, null
             });
 
             game.PlayHumanTurn(1, 1);
 
-            Assert.AreEqual(TicTacToePlayer.AI, game.Board[2, 1]);
+            Assert.AreEqual(TicTacToePlayer.AI, game[2, 1]);
         }
     }
 }
