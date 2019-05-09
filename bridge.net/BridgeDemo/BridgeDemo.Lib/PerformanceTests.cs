@@ -25,7 +25,7 @@ namespace BridgeDemo.Lib
             await TimeAction(nameof(TestStringFormat), TestStringFormat);
             await TimeAction(nameof(TestTicTacToe), TestTicTacToe);
             await TimeAction(nameof(TestRegexIsMatch), TestRegexIsMatch);
-            await TimeAction(nameof(TestListAndLinq), TestListAndLinq);
+            await TimeAction(nameof(TestListAndLinq), TestListAndLinq); 
         }
 
         public void TestIntSums()
