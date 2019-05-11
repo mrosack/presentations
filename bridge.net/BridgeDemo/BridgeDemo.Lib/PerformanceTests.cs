@@ -24,6 +24,7 @@ namespace BridgeDemo.Lib
             await TimeAction(nameof(TestStringConcat), TestStringConcat);
             await TimeAction(nameof(TestStringFormat), TestStringFormat);
             await TimeAction(nameof(TestTicTacToe), TestTicTacToe);
+            await TimeAction(nameof(TestTicTacToeSlow), TestTicTacToeSlow);
             await TimeAction(nameof(TestRegexIsMatch), TestRegexIsMatch);
             await TimeAction(nameof(TestListAndLinq), TestListAndLinq); 
         }
@@ -112,6 +113,16 @@ namespace BridgeDemo.Lib
         public void TestTicTacToe()
         {
             var game = new TicTacToeGame();
+            game.PlayHumanTurn(1, 1);
+            game.PlayHumanTurn(0, 1);
+            game.PlayHumanTurn(2, 0);
+            game.PlayHumanTurn(2, 2);
+            game.PlayHumanTurn(1, 2);
+        }
+
+        public void TestTicTacToeSlow()
+        {
+            var game = new TicTacToeGameSlow();
             game.PlayHumanTurn(1, 1);
             game.PlayHumanTurn(0, 1);
             game.PlayHumanTurn(2, 0);

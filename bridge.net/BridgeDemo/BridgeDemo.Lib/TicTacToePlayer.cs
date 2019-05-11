@@ -7,6 +7,7 @@ namespace BridgeDemo.Lib
     public enum TicTacToePlayer
     {
         Human = 1,
+        None = 0,
         AI = -1
     }
 }

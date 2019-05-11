@@ -49,8 +49,14 @@
     <Compile Include="..\BridgeDemo.Lib\PerformanceTests.cs">
       <Link>PerformanceTests.cs</Link>
     </Compile>
+    <Compile Include="..\BridgeDemo.Lib\RowCol.cs">
+      <Link>RowCol.cs</Link>
+    </Compile>
     <Compile Include="..\BridgeDemo.Lib\TicTacToeGame.cs">
       <Link>TicTacToeGame.cs</Link>
+    </Compile>
+    <Compile Include="..\BridgeDemo.Lib\TicTacToeGameSlow.cs">
+      <Link>TicTacToeGameSlow.cs</Link>
     </Compile>
     <Compile Include="..\BridgeDemo.Lib\TicTacToePlayer.cs">
       <Link>TicTacToePlayer.cs</Link>

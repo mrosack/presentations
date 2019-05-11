@@ -3,11 +3,11 @@ using System.Linq;
 
 namespace BridgeDemo.Lib
 {
-    public class TicTacToeGame
+    public class TicTacToeGameSlow
     {
-        private TicTacToePlayer[] board = new TicTacToePlayer[9];
+        private TicTacToePlayer?[] board = new TicTacToePlayer?[9];
 
-        public TicTacToePlayer this[int row, int col]
+        public TicTacToePlayer? this[int row, int col]
         {
             get
             {
@@ -32,11 +32,11 @@ namespace BridgeDemo.Lib
             }
         }
 
-        public TicTacToeGame()
+        public TicTacToeGameSlow()
         {
         }
 
-        public TicTacToeGame(TicTacToePlayer[] board)
+        public TicTacToeGameSlow(TicTacToePlayer?[] board)
         {
             if (board.Length != 9)
             {
@@ -53,7 +53,7 @@ namespace BridgeDemo.Lib
             if (gameOver)
                 throw new InvalidOperationException("Game over, man!");
 
-            if (this[row, col] != TicTacToePlayer.None)
+            if (this[row, col].HasValue)
                 throw new InvalidOperationException("Square already played!");
 
             this[row, col] = TicTacToePlayer.Human;
@@ -66,33 +66,33 @@ namespace BridgeDemo.Lib
             }
         }
 
-        public TicTacToePlayer CheckWinner()
+        public TicTacToePlayer? CheckWinner()
         {
             // Check rows/columns...
             for (int i = 0; i < 3; i++)
             {
-                if (this[i, 0] != TicTacToePlayer.None && this[i, 0] == this[i, 1] && this[i, 1] == this[i, 2])
+                if (this[i, 0].HasValue && this[i, 0] == this[i, 1] && this[i, 1] == this[i, 2])
                     return this[i, 0];
 
-                if (this[0, i] != TicTacToePlayer.None && this[0, i] == this[1, i] && this[1, i] == this[2, i])
+                if (this[0, i].HasValue && this[0, i] == this[1, i] && this[1, i] == this[2, i])
                     return this[0, i];
             }
 
             // Check diagonals...
-            if (this[0, 0] != TicTacToePlayer.None && this[0, 0] == this[1, 1] && this[1, 1] == this[2, 2])
+            if (this[0, 0].HasValue && this[0, 0] == this[1, 1] && this[1, 1] == this[2, 2])
                 return this[0, 0];
 
             // Check diagonals...
-            if (this[0, 2] != TicTacToePlayer.None && this[0, 2] == this[1, 1] && this[1, 1] == this[2, 0])
+            if (this[0, 2].HasValue && this[0, 2] == this[1, 1] && this[1, 1] == this[2, 0])
                 return this[0, 2];
 
-            return TicTacToePlayer.None;
+            return null;
         }
 
         public bool IsGameOver()
         {
-            bool allFilled = board.All(x => x != TicTacToePlayer.None);
-            return allFilled || CheckWinner() != TicTacToePlayer.None;
+            bool allFilled = board.All(x => x.HasValue);
+            return allFilled || CheckWinner().HasValue;
         }
 
         public RowCol FindBestMove(TicTacToePlayer player)
@@ -105,9 +105,9 @@ namespace BridgeDemo.Lib
             {
                 for (var bCol = 0; bCol < 3; bCol++)
                 {
-                    if (this[bRow, bCol] == TicTacToePlayer.None)
+                    if (!this[bRow, bCol].HasValue)
                     {
-                        var cloneGame = new TicTacToeGame((TicTacToePlayer[])board.Clone());
+                        var cloneGame = new TicTacToeGameSlow((TicTacToePlayer?[])board.Clone());
 
                         // Test this move with minimax...
                         cloneGame[bRow, bCol] = TicTacToePlayer.AI;
@@ -133,7 +133,7 @@ namespace BridgeDemo.Lib
         {
             var winner = CheckWinner();
 
-            if (winner != TicTacToePlayer.None)
+            if (winner.HasValue)
             {
                 return winner == maximizingPlayer ? 1 : -1;
             }
@@ -144,9 +144,9 @@ namespace BridgeDemo.Lib
             {
                 for (var col = 0; col < 3; col++)
                 {
-                    if (this[row, col] == TicTacToePlayer.None)
+                    if (!this[row, col].HasValue)
                     {
-                        var cloneGame = new TicTacToeGame((TicTacToePlayer[])board.Clone());
+                        var cloneGame = new TicTacToeGameSlow((TicTacToePlayer?[])board.Clone());
                         var nextPlayer = (TicTacToePlayer)((int)player * -1);
                         cloneGame[row, col] = nextPlayer;
 

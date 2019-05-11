@@ -61,7 +61,7 @@ namespace BridgeDemo.Bridge.UI.TicTacToe
             {
                 var winner = game.CheckWinner();
 
-                if (winner.HasValue)
+                if (winner != TicTacToePlayer.None)
                     Window.Alert($"{winner.ToString()} is the winner!");
                 else
                     Window.Alert("It's a draw!");
