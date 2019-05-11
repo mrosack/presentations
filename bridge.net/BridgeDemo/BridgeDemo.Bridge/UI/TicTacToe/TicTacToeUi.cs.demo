@@ -1,0 +1,28 @@
+﻿using Bridge.Html5;
+using Bridge.jQuery2;
+using BridgeDemo.Lib;
+using System;
+
+namespace BridgeDemo.Bridge.UI.TicTacToe
+{
+    public static class TicTacToeUi
+    {
+        private static TicTacToeGame game = new TicTacToeGame();
+
+        public static void Main()
+        {
+        }
+
+        private static void OnReady()
+        {
+        }
+
+        private static void UpdateBoard()
+        {
+        }
+
+        private static void OnSquareClick(jQueryMouseEvent e)
+        {
+        }
+    }
+}

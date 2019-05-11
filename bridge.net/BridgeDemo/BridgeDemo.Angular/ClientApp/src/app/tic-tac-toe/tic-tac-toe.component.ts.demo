@@ -1,0 +1,24 @@
+import { Component } from '@angular/core';
+import Lib = BridgeDemo.Lib;
+
+@Component({
+  selector: 'app-tic-tac-toe-component',
+  templateUrl: './tic-tac-toe.component.html',
+  styleUrls: ['./tic-tac-toe.component.css']
+})
+export class TicTacToeComponent {
+  public game = new Lib.TicTacToeGame();
+  public currentCount = 0;
+
+  public squareClick(row: number, col: number) {
+    
+  }
+
+  public squareContent(row: number, col: number) {
+    
+  }
+
+  public reset() {
+    this.game = new Lib.TicTacToeGame();
+  }
+}

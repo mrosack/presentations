@@ -64,6 +64,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\Performance\PerformanceUi.cs" />
     <Compile Include="UI\TicTacToe\TicTacToeSquare.cs" />
+    <None Include="UI\TicTacToe\TicTacToeUi.cs.demo" />
     <Compile Include="UI\TicTacToe\TicTacToeUi.cs" />
   </ItemGroup>
   <ItemGroup>

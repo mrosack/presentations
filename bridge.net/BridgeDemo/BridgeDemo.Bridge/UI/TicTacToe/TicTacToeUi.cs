@@ -2,10 +2,6 @@
 using Bridge.jQuery2;
 using BridgeDemo.Lib;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BridgeDemo.Bridge.UI.TicTacToe
 {
